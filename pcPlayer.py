@@ -46,7 +46,7 @@ class pcPlayer():
 				node.heuristicValue=getMin(children).heuristicValue
 			else:
 				node.heuristicValue=getMax(children).heuristicValue
-		print node.value," heuristic value: ", str(node.heuristicValue)
+		print (node.value," heuristic value: ", str(node.heuristicValue))
 
 
 

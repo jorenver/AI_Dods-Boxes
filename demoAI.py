@@ -14,7 +14,7 @@ def generateChildren(a):
 	result=[]
 	for i in aux:
 		n=nodo(0)
-		n.value=a.value/i
+		n.value=a.value//i
 		result.append(n)
 	return result
 
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 	node=nodo(25)
 	
 	obj.miniMax(node,1,generateChildren,heuristic,"max")
-	print "edges: ",obj.graph.number_of_edges()
+	print ("edges: ",obj.graph.number_of_edges())
 	'''
 	for i in obj.graph.edges():
 		print "( value: ", str(i[0].value), "heuristic: ", str(i[0].heuristicValue), " ) -->", "( value: ", str(i[1].value), "heuristic: ", str(i[1].heuristicValue), " )"
