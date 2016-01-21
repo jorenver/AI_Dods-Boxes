@@ -143,7 +143,7 @@ class AI_Board:
 		value = True
 
 		if(box.grade == 0 or box.grade == 1 or box.grade == 3):
-			self.boxes[i][j].visited = 1
+			#self.boxes[i][j].visited = 1
 			value = False
 
 		if (box.owner != None ):
@@ -154,6 +154,105 @@ class AI_Board:
 			value = False
 
 		return value
+
+
+	def getAdjacentCBoxes(self, box):
+		boxes = []
+
+		x = box.coordX
+		y = box.coordY
+
+		#top box
+		value = self.validateBoxCoords(x-1, y)
+		if (value):
+			boxes.append(self.boxes[x-1][y])
+
+		#bottom box
+		value = self.validateBoxCoords(x+1, y)
+		if (value):
+			boxes.append(self.boxes[x+1][y])
+
+		#left box
+		value = self.validateBoxCoords(x, y -1)
+		if (value):
+			boxes.append(self.boxes[x][y -1])
+
+		#rigth box
+		value = self.validateBoxCoords(x, y +1)
+		if (value):
+			boxes.append(self.boxes[x][y+1])
+
+		#filter the boxes
+		temp = []
+		for b in boxes:
+			if(b.grade == 3 and b.visited == 0):
+				temp.append(b)
+
+		return temp
+
+	def GetEdgesbyBox(self, box):
+		Edges = []
+
+		Edges.append(box.getEdge('T')) #horizontal
+		Edges.append(box.getEdge('B')) #horizontal
+		Edges.append(box.getEdge('L')) #vertical
+		Edges.append(box.getEdge('R')) #vertical
+
+		#filter the edges and find next boxes
+		temp = []
+
+		for e in Edges:
+			if(self.validateEdgeCoods(e)):
+				x = e[0]
+				y = e[1]
+				orientation = e[2] 
+				if(orientation == 'L' or orientation == 'R'):
+					if(self.verticalEdge[x][y] == 0):
+						edge = (e[0], e[1], 'V')
+						temp.append(edge)
+				else:
+					if(self.horizontalEdge[x][y] == 0):
+						edge = (e[0], e[1], 'H')
+						temp.append(edge)
+
+		return temp
+
+	def GetDirEdgesbyBox(self, box):
+		Edges = []
+
+		Edges.append(box.getEdge('T')) #horizontal
+		Edges.append(box.getEdge('B')) #horizontal
+		Edges.append(box.getEdge('L')) #vertical
+		Edges.append(box.getEdge('R')) #vertical
+
+		#filter the edges and find next boxes
+		temp = []
+
+		for e in Edges:
+			if(self.validateEdgeCoods(e)):
+				x = e[0]
+				y = e[1]
+				orientation = e[2] 
+				if(orientation == 'L' or orientation == 'R'):
+					if(self.verticalEdge[x][y] == 0):
+						edge = (e[0], e[1], orientation)
+						temp.append(edge)
+				else:
+					if(self.horizontalEdge[x][y] == 0):
+						edge = (e[0], e[1], orientation)
+						temp.append(edge)
+
+		return temp
+
+	def setEdge(self, edge):
+		x = edge[0]
+		y = edge[1]
+		orientation = edge[2]
+
+		if(orientation== 'V'):
+			self.verticalEdge[x][y] = 1
+		else:
+			self.horizontalEdge[x][y] =1
 
 
 	#Try to find a chain from a coordiniate of a box (xo, yo)
@@ -324,13 +423,7 @@ class AI_Board:
 
 	def verify_symmetry(self, posX, posY, orientation):
 		#revisar simetria
-
 		
-		if(orientation == 'H'):
-			
-			if(posX == 0 and posY == 0):
-				return False
-
 
 		columns = self.columns + 1
 		if(posY>= math.ceil(float(columns)/2) and posY<= columns ):
@@ -346,7 +439,7 @@ class AI_Board:
 
 
 
-	def getChildren(self):
+	def getChildren(self, owner):
 		children = []
 		
 		bandHorizontal = True
@@ -374,10 +467,11 @@ class AI_Board:
 							for b in afectedBoxes:
 								x = b[0]
 								y = b[1]
-								newBoxes[x][y].grade += 1
+								newBoxes[x][y].grade += 1 #actualizar cajas
 
 							#DoMoves ------ 
 							#create a complete tuple
+
 							child = (newHorizontalEdge, newVerticalEdge, newBoxes)
 							children.append(child)
 							
@@ -399,11 +493,15 @@ class AI_Board:
 
 						if (bandHorizontal):
 							#create a complete tuple
-							newHorizontalEdge[i][j] = 1
+							newHorizontalEdge[i][j] = 1 #revisar si esta bien ahi
 
 							newVerticalEdge = copy.deepcopy(self.verticalEdge) # copy vertical edge
 							newBoxes = copy.deepcopy(self.boxes) # copy the boxes
 							afectedBoxes = self.getBoxesCoordinatesByEdge(i,j, 'H')
+
+							child = (newHorizontalEdge, newVerticalEdge, newBoxes)
+							edge = (i,j, "H")
+							self.DoMoves(owner, child, edge, children)
 
 							for b in afectedBoxes:
 								x = b[0]
@@ -412,8 +510,11 @@ class AI_Board:
 
 
 							#DoMoves ------ 
-
+							#self.DoMoves(owner,child, )
+							edge = (x, y, 'H')
 							child = (newHorizontalEdge, newVerticalEdge, newBoxes)
+							
+
 							children.append(child)
 
 							"""
@@ -422,5 +523,15 @@ class AI_Board:
 									print newBoxes[a][b]
 							"""
 		return children
+
+		
+
+
+
+			
+
+
+
+
 
 
