@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -48,6 +47,7 @@ class windowSettingGame(QFrame):
         verticalContainer.addWidget(self.OptionPlayerPc)
         self.GroupOptions.setLayout(verticalContainer)
         self.GroupOptions.move(330,300)
+
 
 appDotsandBoxes = QApplication(sys.argv)
 backgroundPicture = QPalette()

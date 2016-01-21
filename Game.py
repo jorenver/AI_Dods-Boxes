@@ -3,6 +3,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5 import QtGui
 
 class Game(QFrame):
 
@@ -41,11 +42,11 @@ class Game(QFrame):
         self.labelNumberTurn = QLabel(self)
         self.labelNumberTurn.setText("<h1>12</h1>")
         self.labelNumberTurn.move(750,155)
-
-        #Draw Board in the Game
-
+        FILA = 4
+        COLUMNA = 5
+        self.builGraphBoard(4,4)
     """
-    @description ; This function return a int number
+    @description : This function return a int number
                     with QString,this function is useful
                     when you need show the result in the label
     """
@@ -55,7 +56,7 @@ class Game(QFrame):
         return score
 
     """
-    @description ; This function return a int number
+    @description : This function return a int number
                     with QString,this function is useful
                     when you need show the result in the label
     """
@@ -65,7 +66,7 @@ class Game(QFrame):
         return score
 
     """
-    @description ; This function return a int number
+    @description : This function return a int number
                     with QString,this function is useful
                     when you need show the result in the label
     """
@@ -73,14 +74,51 @@ class Game(QFrame):
         score = QtCore.QString()
         score.setNum(valueInt)
         return score
-
-    def builGraphBoard(self):
-         return "null"
-
-
-
-
-
+    
+    """
+    @description :
+    """
+    def builGraphBoard(self,Rows,Columns):
+        COLUMNA = 308
+        FILA = 220
+        nfilas = 2*Rows -1
+        nColumnas = 2*Columns-1
+        for i in range(nfilas):
+            if i%2==0:
+                for j in range(nColumnas):
+                    if j%2==0:
+                        boton=QPushButton(self)
+                        boton.setMinimumHeight(60)
+                        boton.setMinimumWidth(80)
+                        boton.setIcon(QIcon("Puntos-01.png"))
+                        boton.move(COLUMNA,FILA)
+                    else:
+                        boton=QPushButton(self)
+                        boton.setMinimumHeight(60)
+                        boton.setMinimumWidth(80)
+                        boton.move(COLUMNA,FILA)
+                    COLUMNA = COLUMNA + 70     
+                FILA = FILA + 50
+                COLUMNA = 308
+            else:
+                for j in range(nColumnas):
+                    boton = QPushButton(self)
+                    boton.setMinimumHeight(60)
+                    boton.setMinimumWidth(80)
+                    boton.move(COLUMNA,FILA)
+                    COLUMNA = COLUMNA + 70
+                FILA = FILA + 50
+                COLUMNA = 308
+                    
+                
+    
+    def PasarMouse(self):
+        return "null"
+    
+    def darClick(self):
+        return "null"
+    
+    
 appDotsandBoxes = QApplication(sys.argv)
 backgroundPicture = QPalette()
 backgroundPicture.setBrush(QPalette.Background,QBrush(QPixmap("BackgroundGame-01.png")))
