@@ -15,6 +15,7 @@ class AI_Util:
 		print ("*****DoMoves*****")
 		generateChild = self.doMoves(owner, sequenceEdge)
 		if(not(generateChild)):
+			print "No mas hijos"
 			newVerticalEdge = copy.deepcopy(board.verticalEdge) # copy vertical edge
 			newHorizontalEdge = copy.deepcopy(board.horizontalEdge)
 			newBoxes = copy.deepcopy(board.boxes)
@@ -135,7 +136,6 @@ class AI_Util:
 	def closeChain(self, chain, ini, fin, owner ):
 		board = self.ai_board
 		sequenceEdge = []
-		print "inicio, fin" ,ini, fin
 
 		for i in range (ini, fin ):
 			box = chain[i]
@@ -172,10 +172,6 @@ class AI_Util:
 		board = self.ai_board
 		lengthChain = len(chain)
 
-		print "chain"
-		print "index: ", index
-		for x in chain:
-			print x
 
 		if(lengthChain > 2):
 
@@ -184,32 +180,40 @@ class AI_Util:
 				#la segunda parte de la cadena es mas larga
 				ini = index
 				fin = lengthChain - 2
-				aux = self.closeChain(chain, ini, fin, owner)
+				seq1 = self.closeChain(chain, ini, fin, owner)
 
-				iniDoublecross = chain[lengthChain - 3]
+				iniDoublecross = chain[lengthChain - 2]
 				lastEdges = board.GetDirEdgesbyBox(iniDoublecross)
 				lastEdge = lastEdges[0]
-				paralelOrientation = self.getParalelOrientationEdge(lastEdge)
+				
+				finDoubleCross = chain[lengthChain-1]
 
-				newEdge = iniDoublecross.getEdge(paralelOrientation)
-				newOrientation = self.convertOrientation(paralelOrientation)
+				newEdge = finDoubleCross.getEdge(lastEdge[2])
+				
+				newOrientation = self.convertOrientation(lastEdge[2])
+
+				
 				edge = (newEdge[0], newEdge[1], newOrientation )
-				sequenceEdge.append(edge)
+				seq1.append(edge)
 				self.updateBoxes(edge, owner) #update the grade and the owner
 				board.setEdge(edge) #set an edge
 
 				ini = 0
 				fin = index
-				aux = self.closeChain(chain, ini, fin, owner)
+				seq2 = self.closeChain(chain, ini, fin, owner)
+				seq = seq2 + seq1
+				sequenceEdge += seq
+
+
+
 			else:
 				#la primera parte de la cadena es mas larga
 				ini  = 0
 				fin = index - 2
 				seq1 = self.closeChain(chain, ini, fin, owner)
-				print "estoy aqui"
+
 
 				iniDoublecross = chain[index - 2]
-				print "init doublecroos", iniDoublecross
 				lastEdges = board.GetDirEdgesbyBox(iniDoublecross)
 				lastEdge = lastEdges[0]
 				
@@ -230,6 +234,12 @@ class AI_Util:
 				seq2 = self.closeChain(chain, ini, fin, owner)
 				seq = seq2 + seq1
 				sequenceEdge += seq
+		else:
+			seq = self.closeChain(chain, 0, lengthChain, owner)
+			seq = seq[::-1]
+			
+			for x in seq:
+				sequenceEdge.insert(0,x)
 
 
 
@@ -265,7 +275,6 @@ class AI_Util:
 
 
 					else: #other case
-						
 
 						if(lengthNextBoxes != 0):
 							nextBox = nextBoxes[0]
@@ -273,14 +282,18 @@ class AI_Util:
 							chain = board.findChain(nextBox.coordX, nextBox.coordY)
 							chain.insert(0, box)
 							index = 0
-							print "box: ", box
+							print "***box", box
+ 
 							#complete other part of the chain
 							if(lengthAdj!=0):
 								adjcbox = adjacentCBoxes[0]
-								print "****adyacent cbox:", adjcbox
+
 								nextadjcboxes = board.getNextBoxes(adjcbox)
-								nextadjcbox = nextadjcboxes[0]
-								otherChain = board.findChain(nextadjcbox.coordX, nextadjcbox.coordY)
+								otherChain = []
+								if(len(nextadjcboxes)>0):
+									nextadjcbox = nextadjcboxes[0]
+									otherChain = board.findChain(nextadjcbox.coordX, nextadjcbox.coordY)
+								
 								otherChain.insert(0, adjcbox)
 								chain = otherChain + chain
 								index += len(otherChain)
@@ -289,8 +302,7 @@ class AI_Util:
 
 							if(len(chain)>2):
 								generateChild = False
-							else:
-								generateChild = True
+
 
 		return generateChild
 
