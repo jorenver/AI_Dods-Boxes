@@ -9,7 +9,7 @@ class windowSettingGame(QWidget):
     def __init__(self,*args):
         QWidget.__init__(self,*args)
         self.main_widget = QWidget(self)
-        self.setWindowTitle("Main Window Dots and Boxes")
+        self.setWindowTitle("Setting Dods And Boxes")
         self.resize(880,560)
         verticalContainer = QVBoxLayout(self)
         self.labelTitle = QLabel(self)
@@ -17,7 +17,7 @@ class windowSettingGame(QWidget):
         self.labelTitle.move(350,10)
 
         self.Image = QLabel(self)
-        self.Image.setPixmap(QPixmap("Machine.png"))
+        self.Image.setPixmap(QPixmap("../imagenes/Machine.png"))
         self.Image.move(410,60)
 
         #Body of Widget
@@ -61,7 +61,7 @@ class windowSettingGame(QWidget):
 if __name__ == "__main__":
     appDotsandBoxes = QApplication(sys.argv)
     backgroundPicture = QPalette()
-    backgroundPicture.setBrush(QPalette.Background,QBrush(QPixmap("BackgroundImage.png")))
+    backgroundPicture.setBrush(QPalette.Background,QBrush(QPixmap("../imagenes/BackgroundImage.png")))
     wSetting = windowSettingGame()
     wSetting.setPalette(backgroundPicture)
     wSetting.show()

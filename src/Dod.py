@@ -1,7 +1,6 @@
 class Dod():
 
     def __init__(self,x1,y1):
-        super(Dod, self).__init__()
         self.x =int(x1)
         self.y =int(y1)
         self.listxy =[]
