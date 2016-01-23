@@ -11,9 +11,9 @@ class Board():
         #1 representa a el Pc y 2 representa al Jugagdor
     def updateEdge(self,typeE,dod,player):
         if(typeE=="vertical"):
-            verticalEdges[dod.x][dod.y]=player
+            self.verticalEdges[dod.x][dod.y]=player
         else:
-            horizontalEdges[dod.x][dod.y]=player
+            self.horizontalEdges[dod.x][dod.y]=player
 
 
 
