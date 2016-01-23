@@ -18,44 +18,29 @@ Board
 """
 
 class AI_Board:
-	def __init__(self, rows, columns):
-		self.verticalEdge = []
-		self.horizontalEdge = []
-		self.rows = rows #number of horizontal boxes
-		self.columns = columns #number of vertical boxes
-		self.boxes = []
-
-	def createVerticalEdges(self):
-		for i in range(0,self.rows):
-			self.verticalEdge.append([0]*(self.columns+ 1))
+	def __init__(self, horizontalEdge, verticalEdge, boxes):
+		self.verticalEdge = verticalEdge
+		self.horizontalEdge = horizontalEdge
+		self.boxes = boxes
+		self.rows = self.getRowsTam(boxes) #number of horizontal boxes
+		self.columns = self.getColummnsTam(boxes) #number of vertical boxes
 
 
-	def createHorizontalEdges(self):
-		for i in range(0,self.rows + 1):
-			self.horizontalEdge.append([0]*self.columns)	
+	def getRowsTam(self, boxes):
+		rows = len(boxes)
+		return rows
 
-		
-	def createBoxes(self):
+	def getColummnsTam(self, boxes):
+		aux = boxes[0]
+		columns = len(aux)
+		return columns
 
-		for i in range(0, self.rows):
-			boxes = []
-			for j in range (0, self.columns):
-				box = Box(i,j,0)
-				boxes.append(box)
-			self.boxes.append(boxes)
-
-
-
-	def initBoard(self):
-		self.createHorizontalEdges()
-		self.createVerticalEdges()
-		self.createBoxes()
 
 	#set 0 in the visited flag of a box
 	def setUnvisited(self):
 		for i in range(0, self.rows):
 			for j in range(self.columns):
-				self.boxes[i,j] = 0
+				self.boxes[i][j].visited = 0
 
 	#validate the coordinates of an edge,
 	#the edge is a tuple (x,y, orientation)
@@ -147,7 +132,7 @@ class AI_Board:
 			value = False
 
 		if (box.owner != None ):
-			self.boxes[i][j].visited = 1
+			box.visited = 1
 			value = False
 
 		if(box.visited == 1):
@@ -260,6 +245,8 @@ class AI_Board:
 		
 		stack =[]
 		chain = []
+
+
 		box = self.boxes[xo][yo]
 
 		if ( self.isBoxAvailable(box) ):

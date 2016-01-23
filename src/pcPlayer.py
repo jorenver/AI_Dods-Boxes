@@ -1,6 +1,8 @@
 import networkx as nx
 import node as n
 
+from AI_Util import*
+
 def getMin(l):
 	n=l[0]
 	for i in l:
@@ -17,9 +19,10 @@ def getMax(l):
 
 class pcPlayer():
 
-	def __init__(self,board):
+	def __init__(self, board, orderTurn):
 		self.boardPlayer = board
-		self.graph=nx.DiGraph()
+		self.graph=nx.Graph()
+		self.orderTurn = orderTurn
 
 
 	def getListEdge (self,Graph):
@@ -32,22 +35,37 @@ class pcPlayer():
 			return "min"
 
 
-	def miniMax(self,node,depth,generateClindren,heuristic,typeLevel):
+	def miniMax(self,node, depth, typeLevel):
 		self.graph.add_node(node)
+		
+		ai_util = AI_Util(node.horizontalEdge, node.verticalEdge, node.boxes )
+
+
 		if(depth==0):
-			node.heuristicValue=heuristic(node)
+			node.heuristicValue = ai_util.heuristic(self.orderTurn)
 		else:
-			children= generateClindren(node)
+
+			owner = None
+			if(typeLevel == "max"):
+				owner = "PC"
+			else:
+				owner = "YOU"
+
+			children= ai_util.getBoardChildren(owner)
 			for i in children:
 				self.graph.add_edge(node,i)
 				auxTypeLevel=self.changeType(typeLevel)
-				self.miniMax(i,depth-1,generateClindren,heuristic,auxTypeLevel)
+				self.miniMax(i,depth-1, auxTypeLevel)
 			if (typeLevel=="min"):
-				node.heuristicValue=getMin(children).heuristicValue
+				node.heuristicValue = getMin(children).heuristicValue
 			else:
 				node.heuristicValue=getMax(children).heuristicValue
-		print (node.value," heuristic value: ", str(node.heuristicValue))
+
+		print (node.heuristicValue," heuristic value: ", str(node.heuristicValue))
 
 
+	def draw():
+		x.draw(obj.graph)
+		plt.show()
 
 

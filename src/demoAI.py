@@ -1,41 +1,60 @@
 import pcPlayer as pc
-import matplotlib.pyplot as plt
+from node import*
+from Box import *
+from matplotlib import *
 import networkx as nx
-class nodo:
-	def __init__(self,v):
-		self.heuristicValue=0
-		self.value=v
-	def __str__(self):
-		return "(value: ",str(self.value)," heuristic: ", str(self.heuristicValue),")"
 
 
-def generateChildren(a):
-	aux=[2,3]
-	result=[]
-	for i in aux:
-		n=nodo(0)
-		n.value=a.value//i
-		result.append(n)
-	return result
 
-def heuristic(a):
-	return a.value
+"""
+Board
+
+	 0 1 2  
+	*-*-* *
+0	|     
+	* * * *
+1	| | | |  
+	* * * *
+2	      |
+	*-*-*-*
+
+
+"""
+
+
+horizontalEdge = [ [1,1,0], 
+				   [0,0,0], 
+				   [0,0,0], 
+				   [1,1,1] ]
+
+verticalEdge = [ [1,0,0,0],
+				 [1,1,1,1], 
+				 [0,0,0,1] ]
+
+
+
+boxes = [[Box(0,0, 2), Box(0,1, 1), Box(0,2, 0)], 
+		 [Box(1,0, 2), Box(1,1, 2), Box(1,2, 2)],
+		 [Box(2,0, 1), Box(2,1, 1), Box(2,2, 2)]]
+
+
+sequenceEdge = []
+
 
 
 
 if __name__ == "__main__":
-	obj=pc.pcPlayer(25)
-	node=nodo(25)
+
+	node = Node(horizontalEdge, verticalEdge, boxes, sequenceEdge )
+
+	obj=pc.pcPlayer(None, 2)
 	
-	obj.miniMax(node,2,generateChildren,heuristic,"max")
+	obj.miniMax(node, 1 , "max")
 	print ("edges: ",obj.graph.number_of_edges())
-	print ("nodos: ",obj.graph.number_of_nodes())
+
 	nx.draw(obj.graph)
 	plt.show()
-	'''
-	pos=nx.graphviz_layout(obj.graph,prog='dot')
-	nx.draw(bobj.graph,pos,with_labels=False,arrows=False)
-	'''
+
 	'''
 	for i in obj.graph.edges():
 		print "( value: ", str(i[0].value), "heuristic: ", str(i[0].heuristicValue), " ) -->", "( value: ", str(i[1].value), "heuristic: ", str(i[1].heuristicValue), " )"
@@ -47,5 +66,5 @@ if __name__ == "__main__":
 	a= generateChildren(node)
 	for i in a:
 		for j in i.values:
-			print j , '\n'
+			print j , 
 	'''

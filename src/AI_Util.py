@@ -2,10 +2,11 @@ import copy
 import math
 from Box import *
 from AI_Board import *
+from node import*
 
 class AI_Util:
-	def __init__(self, ai_board):
-		self.ai_board = ai_board
+	def __init__(self, horizontalEdge, verticalEdge, boxes):
+		self.ai_board = AI_Board(horizontalEdge, verticalEdge, boxes)
 		self.children = []
 		
 	def getBoardChildren(self, owner):
@@ -21,7 +22,7 @@ class AI_Util:
 			newBoxes = copy.deepcopy(board.boxes)
 			newSequenceEdge = copy.deepcopy(sequenceEdge)
 			
-			child = (newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
+			child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 			self.children.append(child)
 			return self.children
 
@@ -56,7 +57,7 @@ class AI_Util:
 							#create a complete tuple
 							edge = (i,j, 'V')
 							newSequenceEdge.append(edge)
-							child = (newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
+							child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 							self.children.append(child)
 							
 							"""
@@ -96,7 +97,7 @@ class AI_Util:
 
 							edge = (i,j, 'H')
 							newSequenceEdge.append(edge)
-							child = (newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
+							child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 							
 
 							self.children.append(child)
@@ -305,4 +306,61 @@ class AI_Util:
 
 
 		return generateChild
+
+	def heuristic(self, orderTurn):
+
+		parity = -1
+		longChains = 0
+		captureBox = 0
+		C_boxes = 0
+
+		board = self.ai_board
+		board.setUnvisited()
+
+		for i in range(0, board.rows):
+			for j in range(board.columns):
+				chain = board.findChain(i,j)
+				
+				if(len(chain)>2):
+					longChains +=1
+
+				box = board.boxes[i][j]
+
+				if(box.grade == 3):
+					C_boxes +=1
+
+				if(box.owner == "PC"):
+					captureBox +=1
+
+		board.setUnvisited()
+
+		dots = (board.rows + 1)*(board.columns + 1)
+
+		if(dots%2 == 0):#if the number of dots is even
+			if(orderTurn == 1 and (longChains%2 ==0 )):
+				parity = 1
+
+			if(orderTurn == 2 and (longChains%2 == 1)):
+				parity = 1
+
+		if(dots%2 == 1):
+			if(orderTurn == 1 and (longChains%2 ==1 )):
+				parity = 1
+
+			if(orderTurn == 2 and (longChains%2 == 0)):
+				parity = 1
+
+
+		value = parity*longChains + captureBox - C_boxes
+
+		print parity, longChains, doubleCross, captureBox, C_boxes
+		print "El valor heurisitco chucha", value
+		return value
+
+
+
+
+
+
+
 
