@@ -353,8 +353,8 @@ class AI_Util:
 
 		value = parity*longChains + captureBox - C_boxes
 
-		print parity, longChains, doubleCross, captureBox, C_boxes
-		print "El valor heurisitco chucha", value
+		print parity, longChains, captureBox, C_boxes
+		print "El valor heurisitco", value
 		return value
 
 

@@ -1,7 +1,7 @@
 import pcPlayer as pc
 from node import*
 from Box import *
-from matplotlib import *
+
 import networkx as nx
 
 
@@ -52,8 +52,8 @@ if __name__ == "__main__":
 	obj.miniMax(node, 1 , "max")
 	print ("edges: ",obj.graph.number_of_edges())
 
-	nx.draw(obj.graph)
-	plt.show()
+	#nx.draw(obj.graph)
+	#plt.show()
 
 	'''
 	for i in obj.graph.edges():
