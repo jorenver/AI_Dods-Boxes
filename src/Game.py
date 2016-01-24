@@ -17,6 +17,8 @@ class Game(QMainWindow):
     def __init__(self,nRows,nColumns,firstPlayer):
         # firstPlayer is 1 for pc and 2 for Human
         super(Game, self).__init__()
+        self.M=[[(0,0,"H")],[(0,0,"V")],[(1,0,"H")],[(0,1,"V")],[(1,1,"H")],[(1,2,"H")],[(2,1,"V")],[(2,2,"H")],[(2,3,"V")]]
+        self.CONTADOR=0
         self.setWindowTitle("Dots And Boxes")
         self.resize(880,900)
         self.labelPlayer = QLabel(self)
@@ -39,7 +41,6 @@ class Game(QMainWindow):
         self.labelScorePc.setText("0")
         self.labelScorePc.move(280,50)
         self.labelNumberTurn = QLabel(self)
-        self.labelNumberTurn.setText("Player")
         self.labelNumberTurn.move(400,50)
         self.turn=firstPlayer
         self.Board=Board(nRows,nColumns,self)
@@ -54,8 +55,10 @@ class Game(QMainWindow):
     def changeTurn(self):
         if(self.turn==1):
             self.turn=2
+            self.labelNumberTurn.setText("Player")
         else:
             self.turn=1
+            self.labelNumberTurn.setText("Computadora")
 
     def notifyPlay(self,change):
         print "CAMBIO ",change
@@ -66,7 +69,8 @@ class Game(QMainWindow):
                 self.pcPlayerTurn()
 
     def pcPlayerTurn(self):
-        movimientos=[(0,0,"H")]
+        movimientos=self.M[self.CONTADOR]
+        self.CONTADOR=self.CONTADOR+1
         print "TURNO DE LA PC"
         cont=0
         for i in movimientos:

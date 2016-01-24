@@ -20,17 +20,15 @@ class Board():
         else:
             self.horizontalEdges[dod.x][dod.y]=owner
         if(owner==1):
-            print "SI TIENE QUE DIBUJAR EL PC"
+            #print "SI TIENE QUE DIBUJAR EL PC"
             self.observerGraphicBoard.updateGraphicEdge(typeE,dod,owner) 
         for i in boxes:
             self.boxesMatrix[i.x][i.y].grade=self.boxesMatrix[i.x][i.y].grade+1
             if(self.boxesMatrix[i.x][i.y].grade==4):
-                print "caja capturada ",self.boxesMatrix[i.x][i.y].grade
+                #print "caja capturada ",self.boxesMatrix[i.x][i.y].grade
                 self.boxesMatrix[i.x][i.y].owner=owner
                 self.observerGame.updateGraphicBox(i,owner)
-            else:
-                print "caja no capturada, ", self.boxesMatrix[i.x][i.y].grade
-        #self.toStringBoard()
+        self.toStringBoard()
         if(owner==2):
             self.observerGame.notifyPlay(self.isChangeTurn())
         else:# flag sirve para saber cuando la pc aun tiene jugada 
