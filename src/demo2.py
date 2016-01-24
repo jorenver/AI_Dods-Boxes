@@ -61,7 +61,6 @@ def printBoard2(board):
 if __name__ == "__main__":
 	
 	ai_util = AI_Util(horizontalEdge, verticalEdge, boxes)
-
 	print ai_util.heuristic(2)
 
 	

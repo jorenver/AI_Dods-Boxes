@@ -19,4 +19,4 @@ class Box:
 			return (self.coordX, self.coordY + 1, 'R')
 
 	def __str__(self):
-		return "Box {grade:" + str(self.grade) + " coordX: " + str(self.coordX) + " coordY: " + str(self.coordY) + "owner: " + str(self.owner) + "}"
+		return "{G:" + str(self.grade) + " X: " + str(self.coordX) + " Y: " + str(self.coordY) + " O: " + str(self.owner) + "}"

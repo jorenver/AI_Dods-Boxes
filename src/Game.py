@@ -8,11 +8,14 @@ from GraphicEdge import *
 from GraphicBox import *
 from Board import *
 from GraphicBoard import *
+from node import *
+from pcPlayer import *
+from Dod import *
 
 class Game(QMainWindow):
 
     def __init__(self,nRows,nColumns,firstPlayer):
-        # firstPlayer is 0 for pc and 1 for Human
+        # firstPlayer is 1 for pc and 2 for Human
         super(Game, self).__init__()
         self.setWindowTitle("Dots And Boxes")
         self.resize(880,900)
@@ -38,10 +41,46 @@ class Game(QMainWindow):
         self.labelNumberTurn = QLabel(self)
         self.labelNumberTurn.setText("Player")
         self.labelNumberTurn.move(400,50)
-        self.Board=Board(nRows,nColumns)
+        self.turn=firstPlayer
+        self.Board=Board(nRows,nColumns,self)
         self.graphicBoard=GraphicBoard(nRows,nColumns,self,self.Board)
         self.graphicBoard.builGraphBoard()
+        self.Board.observerGraphicBoard=self.graphicBoard
+        self.pcPlayer=pcPlayer(self.Board, firstPlayer,self,self.graphicBoard)
+        if(self.turn==1):
+            self.pcPlayerTurn()
         print nRows,nColumns
+
+    def changeTurn(self):
+        if(self.turn==1):
+            self.turn=2
+        else:
+            self.turn=1
+
+    def notifyPlay(self,change):
+        print "CAMBIO ",change
+        if(change):
+            self.changeTurn()
+            if( self.turn==1):
+                print "TURNO: ",self.turn
+                self.pcPlayerTurn()
+
+    def pcPlayerTurn(self):
+        movimientos=[(0,0,"H")]
+        print "TURNO DE LA PC"
+        cont=0
+        for i in movimientos:
+            cont=cont+1
+            if(cont<len(movimientos)):
+                self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,False)
+            else:
+                print "SI VOY A CAMBIAR DE TURNO"
+                self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,True)
+            
+
+    def updateGraphicBox(self,dod,owner):
+        self.graphicBoard.updateGraphicBox(dod,owner)
+
     """
     @description : This function return a int number
                     with QString,this function is useful

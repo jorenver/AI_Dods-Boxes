@@ -2,8 +2,9 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import *
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal, QObject,Qt
 from Dod import *
+from PyQt5.QtGui import QPainter, QColor, QPen
 class Communicate(QObject):
     
 	signal = pyqtSignal() 
@@ -21,28 +22,45 @@ class GraphicEdge(QWidget):
 		layout = QVBoxLayout(self)
 		self.setLayout(layout)
 		self.handled = Communicate()
-		self.handled.signal.connect(self.drawLinePlayer)
-		if(typeEdge=="vertical"):
-			layout.addWidget(QLabel("|"))
-		else:
-			layout.addWidget(QLabel("-----"))
+		self.handled.signal.connect(self.drawLine)
 
-	def drawLinePlayer(self):
-		self.owner="player"
-		print "x: " , self.dod.x, "y: ", self.dod.y
-		#self.repaint()
 
 	def drawLine(self,owner):
-		self.owner=owner
-		#self.repaint()
-	def mousePressEvent(self, event):
 		if(self.owner):
 			print "ya Fue seleccionado, x:", self.dod.x, "y: ", self.dod.y
 		else:
-			self.owner="player"
+			self.owner=owner
 			print "x: " , self.dod.x, "y: ", self.dod.y
-			self.observer.Board.updateEdge(self.type,self.dod,2)
+			self.observer.Board.updateEdge(self.type,self.dod,owner,True)
+			self.repaint()
 
+	def drawLinePc(self,owner):
+		if(self.owner):
+			print "ya Fue seleccionado, x:", self.dod.x, "y: ", self.dod.y
+		else:
+			self.owner=owner
+			print "x: " , self.dod.x, "y: ", self.dod.y
+			self.repaint()
+
+	def mousePressEvent(self, event):
+		self.drawLine(2)
+
+	def paintEvent(self, e):
+		qp = QPainter()
+		qp.begin(self)
+		self.drawLinePaint(qp)
+		qp.end()
+
+	def drawLinePaint(self, qp):
+		pen = QPen(Qt.black, 2, Qt.SolidLine)
+		if(self.owner==None):
+			pen.setStyle(Qt.DashLine)
+
+		qp.setPen(pen)
+		if(self.type=="H"):
+			qp.drawLine(0, 15, 60, 15)
+		if(self.type=="V"):
+			qp.drawLine(15, 0, 15, 60)
 
 
 	def eraseLine(self):

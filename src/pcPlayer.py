@@ -19,13 +19,15 @@ def getMax(l):
 
 class pcPlayer():
 
-	def __init__(self, board, orderTurn):
+	def __init__(self, board, orderTurn,game,GraphicBoard):
 		self.boardPlayer = board
 		self.graph=nx.Graph()
 		self.orderTurn = orderTurn
+		self.observerGame=game
+		self.observerGraphicBoard=GraphicBoard
 
 
-	def getListEdge (self,Graph):
+	def getListEdge (self):
 		pass
 
 	def changeType(self,x):
@@ -65,7 +67,7 @@ class pcPlayer():
 
 
 	def draw():
-		x.draw(obj.graph)
+		x.draw(self.graph)
 		plt.show()
 
 
