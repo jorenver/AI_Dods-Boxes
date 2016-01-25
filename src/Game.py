@@ -78,7 +78,10 @@ class Game(QMainWindow):
         self.pcPlayer.miniMax(node, 2 , "max")
         auxMovimientos=self.pcPlayer.graph.neighbors(node)
         if(len(auxMovimientos)>0):
+            print "Valor escogido", getMin(self.pcPlayer.graph.neighbors(node)).heuristicValue
             movimientos=getMin(self.pcPlayer.graph.neighbors(node)).sequenceEdge
+
+
             print "TURNO DE LA PC"
             cont=0
             for i in movimientos:
