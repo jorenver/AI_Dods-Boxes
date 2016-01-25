@@ -223,7 +223,7 @@ class AI_Board:
 		orientation = edge[2]
 
 		if (orientation == 'T' or orientation == 'B'): #Horizontal
-			if ( x >= 0 and x < self.rows ):
+			if ( x >= 0 and x <= self.rows ):
 				return True
 			else:
 				return False
@@ -414,6 +414,17 @@ class AI_Board:
 			
 			child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 			self.children.append(child)
+
+			"""
+			print "Horizontal", newHorizontalEdge
+			print "Vertical", newVerticalEdge
+							
+			for a in range(0,self.rows):
+				for b in range(0, self.columns):
+					print newBoxes[a][b]
+			print "Sequence", newSequenceEdge
+			"""
+
 			return self.children
 
 
@@ -449,6 +460,7 @@ class AI_Board:
 							newSequenceEdge.append(edge)
 							child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 							self.children.append(child)
+							
 							"""
 							print "******HIJO**** vertical"
 							print "Horizontal", newHorizontalEdge
@@ -495,6 +507,7 @@ class AI_Board:
 							
 
 							self.children.append(child)
+						
 							"""
 							print "******HIJO**** horizonatl"
 							print "Horizontal", newHorizontalEdge
@@ -503,7 +516,7 @@ class AI_Board:
 								for b in range(0, self.columns):
 									print newBoxes[a][b]
 							print "Sequence", newSequenceEdge
-							""" 
+							 """
 							
 		return self.children
 
@@ -595,9 +608,9 @@ class AI_Board:
 					sequenceEdge.append( edge ) #add the edge to the sequence
 
 		box = self.findCBox()
-		if(box != None):
-			print "ENCONTRE OTRO CBOX"
-			self.closeAllCBoxes(owner, sequenceEdge)
+		#if(box != None):
+		#	print "ENCONTRE OTRO CBOX"
+		#	self.closeAllCBoxes(owner, sequenceEdge)
 
 
 	def closeSequence(self, sequenceBoxes, owner ,sequenceEdge):
