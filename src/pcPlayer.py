@@ -47,18 +47,26 @@ class pcPlayer():
 
 
 		if(depth==0):
+<<<<<<< HEAD
+			node.heuristicValue = ai_board.heuristic(self.orderTurn, typeLevel)
+=======
 			node.heuristicValue = ai_board.heuristic(self.orderTurn,typeLevel)
+>>>>>>> 5cec1c57d82a514527dadbef072eaae556798121
 		else:
 
 			owner = None
 			if(typeLevel == "max"):
-				owner = "PC"
+				owner = 1
 			else:
-				owner = "YOU"
+				owner = 2
 
 			children= ai_board.getBoardChildren(owner)
 			if(len(children)==0):
+<<<<<<< HEAD
+				node.heuristicValue = ai_board.heuristic(self.orderTurn, typeLevel)
+=======
 				node.heuristicValue = ai_board.heuristic(self.orderTurn,typeLevel)
+>>>>>>> 5cec1c57d82a514527dadbef072eaae556798121
 			else:
 				print "########################## ",len(children)
 				for i in children:
