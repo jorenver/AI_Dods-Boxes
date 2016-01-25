@@ -48,6 +48,8 @@ class GraphicNode(QWidget):
 		qp.begin(self)
 		qp.setBrush(QColor(200, 0, 0))
 		qp.drawEllipse(0,0,50,50)
+		qp.setPen(QColor(0, 0, 0))
+		qp.drawText(e.rect(), Qt.AlignVCenter,str(self.node.heuristicValue))
 
 if __name__ == "__main__":
     appDotsandBoxes = QApplication(sys.argv)

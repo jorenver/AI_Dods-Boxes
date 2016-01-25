@@ -45,13 +45,11 @@ class GraphicTree(QMainWindow):
 		self.rows=rows
 		self.colums=colums
 		self.root=root
-		nodes=[]
-		nodes.append(self.root) #agrego la raiz del arbol
 		n=GraphicNode(self.root,self.rows,self.colums,self)
 		n.move(self.dimX/2,self.star)
 		cont=1
 		axuType="max"
-		while cont<3:
+		while cont<2:
 			hijos=self.graph.neighbors(self.root)
 			numHijos=0
 			nhijos=[]
@@ -65,7 +63,6 @@ class GraphicTree(QMainWindow):
 					nhijos.append(auxHijo)
 				numHijos=numHijos+1
 			'''
-
 			cont2=0
 			for i in hijos:
 				#dibjar a cada hijo
@@ -74,14 +71,7 @@ class GraphicTree(QMainWindow):
 				if cont2==0:	
 					self.root=i
 				cont2=cont2+1
-				
-			if(axuType=="max"):
-				axuType="min"
-			else:
-				axuType="max"
-			nodes.pop()
-			if(hijos[0]):
-				nodes.append(hijos[0])
+
 			cont=cont+1
 			lenAnterior=len(hijos)
 
@@ -97,7 +87,7 @@ class GraphicTree(QMainWindow):
 		nodes=[]
 		nodes.append(self.root) #agrego la raiz del arbol
 		cont=1
-		while cont<3:
+		while cont<2:
 			hijos=self.graph.neighbors(self.root)
 			cont2=0
 			for i in hijos:
