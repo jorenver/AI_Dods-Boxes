@@ -415,7 +415,7 @@ class AI_Board:
 			child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 			self.children.append(child)
 
-			"""
+		
 			print "Horizontal", newHorizontalEdge
 			print "Vertical", newVerticalEdge
 							
@@ -423,7 +423,7 @@ class AI_Board:
 				for b in range(0, self.columns):
 					print newBoxes[a][b]
 			print "Sequence", newSequenceEdge
-			"""
+		
 
 			return self.children
 
@@ -461,7 +461,7 @@ class AI_Board:
 							child = Node(newHorizontalEdge, newVerticalEdge, newBoxes, newSequenceEdge)
 							self.children.append(child)
 							
-							"""
+							
 							print "******HIJO**** vertical"
 							print "Horizontal", newHorizontalEdge
 							print "Vertical", newVerticalEdge
@@ -470,7 +470,7 @@ class AI_Board:
 								for b in range(0, self.columns):
 									print newBoxes[a][b]
 							print "Sequence", newSequenceEdge
-							"""
+							
 
 				#child from complete horizontal edges
 				if(j >=0 and j < self.columns):
@@ -508,7 +508,7 @@ class AI_Board:
 
 							self.children.append(child)
 						
-							"""
+							
 							print "******HIJO**** horizonatl"
 							print "Horizontal", newHorizontalEdge
 							print "Vertical", newVerticalEdge
@@ -516,7 +516,7 @@ class AI_Board:
 								for b in range(0, self.columns):
 									print newBoxes[a][b]
 							print "Sequence", newSequenceEdge
-							 """
+							 
 							
 		return self.children
 
@@ -539,13 +539,14 @@ class AI_Board:
 							edge = self.GetEdgesbyBox(box) #return the avalable edge
 							box.visited = 1
 							self.updateBoxes(edge[0], owner) #update the grade and the owner
-							sequenceEdge.append( edge) #add the edge to the sequence
+							sequenceEdge.append( edge[0]) #add the edge to the sequence
 					else:
 						edge = self.GetEdgesbyBox(box) #return the avalable edge
 						box.visited = 1
 						self.updateBoxes(edge[0], owner) #update the grade and the owner
-						sequenceEdge.append( edge) #add the edge to the sequence
-	
+						sequenceEdge.append( edge[0]) #add the edge to the sequence
+						
+
 	def findCBox(self):
 
 		for i in range(0, self.rows):
