@@ -1,7 +1,7 @@
 import networkx as nx
 import node as n
 
-from AI_Util import*
+from AI_Board import*
 
 def getMin(l):
 	n=l[0]
@@ -38,11 +38,11 @@ class pcPlayer():
 	def miniMax(self,node, depth, typeLevel):
 		self.graph.add_node(node)
 		
-		ai_util = AI_Util(node.horizontalEdge, node.verticalEdge, node.boxes )
+		ai_board = AI_Board(node.horizontalEdge, node.verticalEdge, node.boxes )
 
 
 		if(depth==0):
-			node.heuristicValue = ai_util.heuristic(self.orderTurn)
+			node.heuristicValue = ai_board.heuristic(self.orderTurn)
 		else:
 
 			owner = None
@@ -51,7 +51,7 @@ class pcPlayer():
 			else:
 				owner = "YOU"
 
-			children= ai_util.getBoardChildren(owner)
+			children= ai_board.getBoardChildren(owner)
 			for i in children:
 				self.graph.add_edge(node,i)
 				auxTypeLevel=self.changeType(typeLevel)

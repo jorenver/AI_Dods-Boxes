@@ -1,6 +1,7 @@
 import pcPlayer as pc
 from node import*
 from Box import *
+from AI_Board import*
 
 import networkx as nx
 
@@ -13,9 +14,9 @@ Board
 	*-*-* *
 0	|     
 	* * * *
-1	| | | |  
+1	|        
 	* * * *
-2	      |
+2	       
 	*-*-*-*
 
 
@@ -28,14 +29,14 @@ horizontalEdge = [ [1,1,0],
 				   [1,1,1] ]
 
 verticalEdge = [ [1,0,0,0],
-				 [1,1,1,1], 
-				 [0,0,0,1] ]
+				 [1,0,0,0], 
+				 [0,0,0,0] ]
 
 
 
 boxes = [[Box(0,0, 2), Box(0,1, 1), Box(0,2, 0)], 
-		 [Box(1,0, 2), Box(1,1, 2), Box(1,2, 2)],
-		 [Box(2,0, 1), Box(2,1, 1), Box(2,2, 2)]]
+		 [Box(1,0, 1), Box(1,1, 0), Box(1,2, 0)],
+		 [Box(2,0, 0), Box(2,1, 0), Box(2,2, 0)]]
 
 
 sequenceEdge = []
@@ -49,7 +50,7 @@ if __name__ == "__main__":
 
 	obj=pc.pcPlayer(None, 2)
 	
-	obj.miniMax(node, 1 , "max")
+	obj.miniMax(node, 2 , "max")
 	print ("edges: ",obj.graph.number_of_edges())
 
 	#nx.draw(obj.graph)

@@ -1,39 +1,39 @@
 import copy
 import math
 from AI_Board import *
-from AI_Util import *
+
 
 
 """
 Board
 
 	 0 1 2  
-	* *-* *
-0	| |   
-	* * * *
-1	| |      
 	* *-*-*
-2	|      |
+0	| | | |
+	* * * *
+1	| |   |
+	* *-*-*
+2	|   
 	*-*-*-*
 
 
 """
 
 
-horizontalEdge = [ [0,1,0], 
+horizontalEdge = [ [0,1,1], 
 				   [0,0,0], 
 				   [0,1,1], 
 				   [1,1,1] ]
 
-verticalEdge = [ [1,1,0,0],
-				 [1,1,0,0], 
-				 [1,0,0,1] ]
+verticalEdge = [ [1,1,1,1],
+				 [1,1,0,1], 
+				 [1,0,0,0] ]
 
 
 
-boxes = [[Box(0,0, 2), Box(0,1, 2), Box(0,2, 0)], 
-		 [Box(1,0, 2), Box(1,1, 2), Box(1,2, 1)],
-		 [Box(2,0, 2), Box(2,1, 2), Box(2,2, 3)]]
+boxes = [[Box(0,0, 2), Box(0,1, 3), Box(0,2, 3)], 
+		 [Box(1,0, 2), Box(1,1, 2), Box(1,2, 2)],
+		 [Box(2,0, 2), Box(2,1, 2), Box(2,2, 2)]]
 
 
 sequenceEdge = []
@@ -60,9 +60,10 @@ def printBoard2(board):
 
 if __name__ == "__main__":
 	
-	ai_util = AI_Util(horizontalEdge, verticalEdge, boxes)
+	board = AI_Board(horizontalEdge, verticalEdge, boxes)
 
-	print ai_util.heuristic(1)
+	children = board.getBoardChildren("PC")
 
-	
+	print "chlidrens", len(children)
+
 
