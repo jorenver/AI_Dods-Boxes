@@ -26,6 +26,8 @@ class pcPlayer():
 		self.observerGame=game
 		self.observerGraphicBoard=GraphicBoard
 
+	def reset(self):
+		self.graph=nx.Graph()
 
 	def getListEdge (self):
 		pass
@@ -54,15 +56,17 @@ class pcPlayer():
 				owner = "YOU"
 
 			children= ai_board.getBoardChildren(owner)
-			for i in children:
-				self.graph.add_edge(node,i)
-				auxTypeLevel=self.changeType(typeLevel)
-				self.miniMax(i,depth-1, auxTypeLevel)
-			if (typeLevel=="min"):
-				node.heuristicValue = getMin(children).heuristicValue
+			if(len(children)>0):
+				for i in children:
+					self.graph.add_edge(node,i)
+					auxTypeLevel=self.changeType(typeLevel)
+					self.miniMax(i,depth-1, auxTypeLevel)
+				if (typeLevel=="min"):
+					node.heuristicValue = getMin(children).heuristicValue
+				else:
+					node.heuristicValue=getMax(children).heuristicValue
 			else:
-				node.heuristicValue=getMax(children).heuristicValue
-
+				node.heuristicValue = ai_board.heuristic(self.orderTurn)
 		print (node.heuristicValue," heuristic value: ", str(node.heuristicValue))
 
 

@@ -5,8 +5,9 @@ from PyQt5.QtCore import pyqtSignal, QObject,Qt
 from Dod import *
 from PyQt5.QtGui import *
 import networkx as nx
+from GraphicNode import *
 
-class GraphicTree(QMainWindow):
+class GraphicTree(QWidget):
 
 	def __init__(self,*args):
 		super(GraphicTree, self).__init__()
@@ -57,6 +58,25 @@ class GraphicTree(QMainWindow):
 		self.graph.add_edge(11,18)
 		self.graph.add_edge(11,19)
 		self.graph.add_edge(11,20)
+		nodes=[]
+		nodes.append(1) #agrego la raiz del arbol
+		n=GraphicNode(None,self)
+		n.move(self.dimX/2,self.star)
+		cont=1
+		while cont<=5:
+			hijos=self.graph.neighbors(1)
+			cont2=0
+			for i in hijos:
+				#dibjar a cada hijo
+				n=GraphicNode(None,self)
+				n.move(cont2*self.dimX/len(hijos),self.star+cont*100)
+				cont2=cont2+1
+			nodes.pop()
+			if(hijos[0]):
+				nodes.append(hijos[0])
+			cont=cont+1
+			lenAnterior=len(hijos)
+
 
 
 	def paintEvent(self, e):
@@ -68,14 +88,17 @@ class GraphicTree(QMainWindow):
 		
 		nodes=[]
 		nodes.append(1) #agrego la raiz del arbol
-		qp.drawEllipse(self.dimX/2,self.star,self.radio,self.radio)
+		n=GraphicNode(None,self)
+		n.move(self.dimX/2,self.star)
 		cont=1
 		while cont<=5:
 			hijos=self.graph.neighbors(1)
 			cont2=0
 			for i in hijos:
 				#dibjar a cada hijo
-				qp.drawEllipse(cont2*self.dimX/len(hijos),self.star+cont*100,self.radio,self.radio)
+				n=GraphicNode(None,self)
+				n.move(cont2*self.dimX/len(hijos),self.star+cont*100)
+				#qp.drawEllipse(cont2*self.dimX/len(hijos),self.star+cont*100,self.radio,self.radio)
 				if(cont==1):#solo en la primera pasada se dibuja desde la raiz
 					qp.drawLine(self.dimX/2+self.radio/2, self.star+self.radio, cont2*self.dimX/len(hijos)+self.radio/2, self.star+cont*100)
 				else:#se conectan con el 1 nodo de el nivel anterior

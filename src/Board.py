@@ -16,9 +16,9 @@ class Board():
     def updateEdge(self,typeE,dod,owner,flag):
         boxes=self.getBoxesAffected(dod,typeE)
         if(typeE=="V"):
-            self.verticalEdges[dod.x][dod.y]=owner
+            self.verticalEdges[dod.x][dod.y]=1
         else:
-            self.horizontalEdges[dod.x][dod.y]=owner
+            self.horizontalEdges[dod.x][dod.y]=1
         if(owner==1):
             #print "SI TIENE QUE DIBUJAR EL PC"
             self.observerGraphicBoard.updateGraphicEdge(typeE,dod,owner) 

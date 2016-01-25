@@ -53,9 +53,6 @@ if __name__ == "__main__":
 	obj.miniMax(node, 2 , "max")
 	print ("edges: ",obj.graph.number_of_edges())
 
-	nx.draw(obj.graph)
-	plt.show()
-
 	'''
 	for i in obj.graph.edges():
 		print "( value: ", str(i[0].value), "heuristic: ", str(i[0].heuristicValue), " ) -->", "( value: ", str(i[1].value), "heuristic: ", str(i[1].heuristicValue), " )"

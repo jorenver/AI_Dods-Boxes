@@ -11,13 +11,13 @@ from GraphicBoard import *
 from node import *
 from pcPlayer import *
 from Dod import *
-
+import copy
 class Game(QMainWindow):
 
     def __init__(self,nRows,nColumns,firstPlayer):
         # firstPlayer is 1 for pc and 2 for Human
         super(Game, self).__init__()
-        self.M=[[(0,0,"H")],[(0,0,"V")],[(1,0,"H")],[(0,1,"V")],[(1,1,"H")],[(1,2,"H")],[(2,1,"V")],[(2,2,"H")],[(2,3,"V")]]
+        #self.M=[[(0,0,"H")],[(0,0,"V")],[(1,0,"H")],[(0,1,"V")],[(1,1,"H")],[(1,2,"H")],[(2,1,"V")],[(2,2,"H")],[(2,3,"V")]]
         self.CONTADOR=0
         self.setWindowTitle("Dots And Boxes")
         self.resize(880,900)
@@ -69,11 +69,16 @@ class Game(QMainWindow):
                 self.pcPlayerTurn()
 
     def pcPlayerTurn(self):
-        movimientos=self.M[self.CONTADOR]
-        self.CONTADOR=self.CONTADOR+1
+        #movimientos=self.M[self.CONTADOR]
+        #self.CONTADOR=self.CONTADOR+1
+        node=Node(copy.deepcopy(self.Board.horizontalEdges),copy.deepcopy(self.Board.verticalEdges),copy.deepcopy(self.Board.boxesMatrix),[])
+        self.pcPlayer.reset()
+        self.pcPlayer.miniMax(node, 2 , "max")
+        movimientos=getMin(self.pcPlayer.graph.neighbors(node)).sequenceEdge
         print "TURNO DE LA PC"
         cont=0
         for i in movimientos:
+            print "$$$$$$$$$$$$$$$$ ",i
             cont=cont+1
             if(cont<len(movimientos)):
                 self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,False)

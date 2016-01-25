@@ -53,14 +53,14 @@ class GraphicEdge(QWidget):
 
 	def drawLinePaint(self, qp):
 		pen = QPen(Qt.black, 2, Qt.SolidLine)
-		if(self.owner==None):
-			pen.setStyle(Qt.DashLine)
+		if(self.owner):
+			qp.setPen(pen)
+			if(self.type=="H"):
+				qp.drawLine(0, 15, 60, 15)
+			if(self.type=="V"):
+				qp.drawLine(15, 0, 15, 60)
 
-		qp.setPen(pen)
-		if(self.type=="H"):
-			qp.drawLine(0, 15, 60, 15)
-		if(self.type=="V"):
-			qp.drawLine(15, 0, 15, 60)
+		
 
 
 	def eraseLine(self):
