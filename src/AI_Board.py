@@ -902,7 +902,7 @@ class AI_Board:
 
 
 		#value = parity*longChains - captureBox
-		value = givenBoxes - captureBox + parity
+		value = 3*givenBoxes - captureBox + parity
 		#print parity, longChains, captureBox, C_boxes
 		print "El valor heurisitco", value, nivel
 		return value
