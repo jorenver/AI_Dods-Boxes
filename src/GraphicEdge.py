@@ -52,7 +52,10 @@ class GraphicEdge(QWidget):
 		qp.end()
 
 	def drawLinePaint(self, qp):
-		pen = QPen(Qt.black, 2, Qt.SolidLine)
+		if(self.owner==2):
+			pen = QPen(Qt.black, 2, Qt.SolidLine)
+		else:
+			pen = QPen(Qt.red, 2, Qt.SolidLine)
 		if(self.owner):
 			qp.setPen(pen)
 			if(self.type=="H"):
