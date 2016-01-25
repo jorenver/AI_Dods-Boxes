@@ -7,19 +7,28 @@ from PyQt5.QtGui import *
 import networkx as nx
 from GraphicNode import *
 
-def getMin(l):
+def getMin2(l):
 	n=l[0]
+	cont=0
+	index=0
 	for i in l:
 		if(i.heuristicValue < n.heuristicValue):
 			n=i
-	return n
+			index=cont
+		cont=cont+1
 
-def getMax(l):
+	return n,l.pop(index)
+
+def getMax2(l):
 	n=l[0]
+	cont=0
+	index=0
 	for i in l:
 		if(i.heuristicValue > n.heuristicValue):
 			n=i
-	return n	
+			index=cont
+		cont=cont+1
+	return n,l.pop(index)
 
 class GraphicTree(QMainWindow):
 
@@ -44,13 +53,28 @@ class GraphicTree(QMainWindow):
 		axuType="max"
 		while cont<3:
 			hijos=self.graph.neighbors(self.root)
+			numHijos=0
+			nhijos=[]
+			'''
+			while len(hijos)!=0 and numHijos<4:
+				if axuType=="max":
+					auxHijo,hijos=getMax2(hijos)
+					nhijos.append(auxHijo)
+				else:
+					auxHijo,hijos=getMin2(hijos)
+					nhijos.append(auxHijo)
+				numHijos=numHijos+1
+			'''
+
 			cont2=0
 			for i in hijos:
 				#dibjar a cada hijo
 				n=GraphicNode(i,self.rows,self.colums,self)
 				n.move(cont2*self.dimX/len(hijos),self.star+cont*100)
+				if cont2==0:	
+					self.root=i
 				cont2=cont2+1
-				self.root=i
+				
 			if(axuType=="max"):
 				axuType="min"
 			else:
