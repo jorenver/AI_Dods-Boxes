@@ -25,6 +25,7 @@ class pcPlayer():
 		self.orderTurn = orderTurn
 		self.observerGame=game
 		self.observerGraphicBoard=GraphicBoard
+		self.root=None
 
 	def reset(self):
 		self.graph=nx.Graph()
