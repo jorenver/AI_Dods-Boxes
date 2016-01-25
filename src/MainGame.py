@@ -52,6 +52,7 @@ class windowSettingGame(QWidget):
         self.OptionPlayerHuman = QRadioButton("Human")
         self.OptionPlayerHuman.setStyleSheet('color:black')
         self.OptionPlayerHuman.setFont(QFont('SansSerif',16))
+        self.OptionPlayerHuman.setChecked(True)
 
         verticalContainer.addWidget(self.OptionPlayerHuman)
         verticalContainer.addWidget(self.OptionPlayerPc)
@@ -62,7 +63,10 @@ class windowSettingGame(QWidget):
     def openGame(self):
         rows=int(self.Rows.currentText())
         columns=int(self.Columns.currentText())
-        self.Ventana = Game(rows,columns,2)
+        if(self.OptionPlayerPc.isChecked()):
+            self.Ventana = Game(rows,columns,1)
+        else:
+            self.Ventana = Game(rows,columns,2)
         self.close()
         self.Ventana.show()
 

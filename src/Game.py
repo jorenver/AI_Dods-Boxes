@@ -27,27 +27,29 @@ class Game(QMainWindow):
         self.labelPc = QLabel(self)
         self.labelPc.setText("Box_PC: ")
         self.labelPc.move(200,50)
-        self.buttonRestart = QPushButton("Restart",self)
-        self.buttonRestart.move(450,50)
+        #self.buttonRestart = QPushButton("Restart",self)
+        #self.buttonRestart.move(450,50)
         self.buttonShowTree = QPushButton("Show Tree",self)
-        self.buttonShowTree.move(550,50)
-        self.labelTurn = QLabel(self)
-        self.labelTurn.setText("Turn: ")
-        self.labelTurn.move(350,50)
+        self.buttonShowTree.move(350,50)
+        #self.labelTurn = QLabel(self)
+        #self.labelTurn.setText("Turn: ")
+        #self.labelTurn.move(350,50)
         self.labelScorePlayer = QLabel(self)
         self.labelScorePlayer.setText("0")
         self.labelScorePlayer.move(150,50)
         self.labelScorePc = QLabel(self)
         self.labelScorePc.setText("0")
         self.labelScorePc.move(280,50)
-        self.labelNumberTurn = QLabel(self)
-        self.labelNumberTurn.move(400,50)
+        #self.labelNumberTurn = QLabel(self)
+        #self.labelNumberTurn.move(400,50)
         self.turn=firstPlayer
         self.Board=Board(nRows,nColumns,self)
         self.graphicBoard=GraphicBoard(nRows,nColumns,self,self.Board)
         self.graphicBoard.builGraphBoard()
         self.Board.observerGraphicBoard=self.graphicBoard
         self.pcPlayer=pcPlayer(self.Board, firstPlayer,self,self.graphicBoard)
+        self.scorePlyer=0
+        self.scorePc=0
         if(self.turn==1):
             self.pcPlayerTurn()
         print nRows,nColumns
@@ -55,10 +57,10 @@ class Game(QMainWindow):
     def changeTurn(self):
         if(self.turn==1):
             self.turn=2
-            self.labelNumberTurn.setText("Player")
+            #self.labelNumberTurn.setText("Player")
         else:
             self.turn=1
-            self.labelNumberTurn.setText("Computadora")
+            #self.labelNumberTurn.setText("Computadora")
 
     def notifyPlay(self,change):
         print "CAMBIO ",change
@@ -92,6 +94,12 @@ class Game(QMainWindow):
             
 
     def updateGraphicBox(self,dod,owner):
+        if(owner==1):
+            self.scorePc=self.scorePc+1
+            self.labelScorePc.setText(str(self.scorePc))
+        else:
+            self.scorePlyer=self.scorePlyer+1
+            self.labelScorePlayer.setText(str(self.scorePlyer))
         self.graphicBoard.updateGraphicBox(dod,owner)
 
     """
