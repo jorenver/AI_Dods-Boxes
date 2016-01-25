@@ -1,3 +1,4 @@
+from Dod import *
 class Edge():
 
     def __init__(self,dodNext,dodPrev,Owner):

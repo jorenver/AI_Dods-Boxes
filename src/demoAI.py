@@ -4,7 +4,7 @@ from Box import *
 from AI_Board import*
 
 import networkx as nx
-
+import matplotlib
 
 
 """
@@ -48,13 +48,13 @@ if __name__ == "__main__":
 
 	node = Node(horizontalEdge, verticalEdge, boxes, sequenceEdge )
 
-	obj=pc.pcPlayer(None, 2)
+	obj=pc.pcPlayer(None, 2,None,None)
 	
 	obj.miniMax(node, 2 , "max")
 	print ("edges: ",obj.graph.number_of_edges())
 
-	#nx.draw(obj.graph)
-	#plt.show()
+	nx.draw(obj.graph)
+	plt.show()
 
 	'''
 	for i in obj.graph.edges():

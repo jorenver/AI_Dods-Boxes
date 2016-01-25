@@ -9,7 +9,7 @@ class windowSettingGame(QWidget):
     def __init__(self,*args):
         QWidget.__init__(self,*args)
         self.main_widget = QWidget(self)
-        self.setWindowTitle("Main Window Dots and Boxes")
+        self.setWindowTitle("Setting Dods And Boxes")
         self.resize(880,560)
         verticalContainer = QVBoxLayout(self)
         self.labelTitle = QLabel(self)
@@ -17,20 +17,28 @@ class windowSettingGame(QWidget):
         self.labelTitle.move(350,10)
 
         self.Image = QLabel(self)
-        self.Image.setPixmap(QPixmap("Machine.png"))
+        self.Image.setPixmap(QPixmap("../imagenes/Machine.png"))
         self.Image.move(410,60)
 
         #Body of Widget
         self.labelRows = QLabel("Rows",self)
         self.labelRows.setStyleSheet('color:black')
         self.labelRows.move(320,160)
-        self.Rows = QLineEdit(self)
+
+        self.Rows = QComboBox(self)
+        self.Rows.setEditable(True)
+        self.Rows.addItems('2 3 4 5 6'.split())
         self.Rows.move(450,165)
+
         self.labelColumns = QLabel("Columns",self)
         self.labelColumns.setStyleSheet('color:black')
         self.labelColumns.move(320,220)
-        self.Columns = QLineEdit(self)
+        
+        self.Columns = QComboBox(self)
+        self.Columns.setEditable(True)
+        self.Columns.addItems('2 3 4 5 6'.split())
         self.Columns.move(450,220)
+
         self.btnStart = QPushButton("START",self)
         self.btnStart.move(450,420)
         self.GroupOptions = QGroupBox(self)
@@ -52,16 +60,16 @@ class windowSettingGame(QWidget):
         self.btnStart.clicked.connect(self.openGame)
 
     def openGame(self):
-        rows=int(self.Rows.text())
-        columns=int(self.Columns.text())
-        self.Ventana = Game(rows,columns,1)
+        rows=int(self.Rows.currentText())
+        columns=int(self.Columns.currentText())
+        self.Ventana = Game(rows,columns,2)
         self.close()
         self.Ventana.show()
 
 if __name__ == "__main__":
     appDotsandBoxes = QApplication(sys.argv)
     backgroundPicture = QPalette()
-    backgroundPicture.setBrush(QPalette.Background,QBrush(QPixmap("BackgroundImage.png")))
+    backgroundPicture.setBrush(QPalette.Background,QBrush(QPixmap("../imagenes/BackgroundImage.png")))
     wSetting = windowSettingGame()
     wSetting.setPalette(backgroundPicture)
     wSetting.show()
