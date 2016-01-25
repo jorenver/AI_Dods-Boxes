@@ -8,13 +8,13 @@ from AI_Board import *
 Board
 
 	 0 1 2  
-	*-*-*-*
-0	| | | |
-	*-*-*-*
-1	| | | |
-	*-*-*-*
-2	| | | |
-	*-*-*-*
+	*-* * *
+0	| | |  
+	* * * *
+1	       
+	* * *-*
+2	|      
+	* * * *
 
 
 """
@@ -62,8 +62,7 @@ if __name__ == "__main__":
 	
 	board = AI_Board(horizontalEdge, verticalEdge, boxes)
 
-	children = board.getBoardChildren("PC")
-
-	print "chlidrens", len(children)
+	heuristic = board.heuristic(1)
+	print heuristic
 
 

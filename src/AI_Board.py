@@ -855,12 +855,13 @@ class AI_Board:
 
 
 
-	def heuristic(self, orderTurn):
+	def heuristic(self, orderTurn, nivel):
 
 		parity = -1
 		longChains = 0
 		captureBox = 0
-		C_boxes = 0
+		givenBoxes = 0
+
 
 		self.setUnvisited()
 
@@ -873,11 +874,13 @@ class AI_Board:
 
 				box = self.boxes[i][j]
 
-				if(box.grade == 3 ):
-					C_boxes +=1
-					box.visited = 1
+				#if(box.grade == 3 ):
+				#	captureBox +=1
+				#	box.visited = 1
+				if(box.owner == 2):
+					givenBoxes+=1
 
-				if(box.owner == "PC"):
+				if(box.owner == 1):
 					captureBox +=1
 
 
@@ -898,10 +901,10 @@ class AI_Board:
 				parity = 1
 
 
-		value = parity*longChains + captureBox - C_boxes
-
+		#value = parity*longChains - captureBox
+		value = givenBoxes - captureBox + parity
 		#print parity, longChains, captureBox, C_boxes
-		#print "El valor heurisitco", value
+		print "El valor heurisitco", value, nivel
 		return value
 
 
