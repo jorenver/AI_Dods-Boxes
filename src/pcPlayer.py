@@ -56,7 +56,10 @@ class pcPlayer():
 				owner = "YOU"
 
 			children= ai_board.getBoardChildren(owner)
-			if(len(children)>0):
+			if(len(children)==0):
+				node.heuristicValue = ai_board.heuristic(self.orderTurn)
+			else:
+				print "########################## ",len(children)
 				for i in children:
 					self.graph.add_edge(node,i)
 					auxTypeLevel=self.changeType(typeLevel)
@@ -65,9 +68,6 @@ class pcPlayer():
 					node.heuristicValue = getMin(children).heuristicValue
 				else:
 					node.heuristicValue=getMax(children).heuristicValue
-			else:
-				node.heuristicValue = ai_board.heuristic(self.orderTurn)
-		print (node.heuristicValue," heuristic value: ", str(node.heuristicValue))
 
 
 	def draw():

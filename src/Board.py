@@ -10,6 +10,7 @@ class Board():
         self.boxesMatrix = self.builMatrixBoxes()
         self.observerGame=Game
         self.observerGraphicBoard=None
+        self.flagTurn=False
 
 
         #1 representa a el Pc y 2 representa al Jugagdor
@@ -20,14 +21,15 @@ class Board():
         else:
             self.horizontalEdges[dod.x][dod.y]=1
         if(owner==1):
-            #print "SI TIENE QUE DIBUJAR EL PC"
-            self.observerGraphicBoard.updateGraphicEdge(typeE,dod,owner) 
+            self.observerGraphicBoard.updateGraphicEdge(typeE,dod,owner)
+            
         for i in boxes:
             self.boxesMatrix[i.x][i.y].grade=self.boxesMatrix[i.x][i.y].grade+1
             if(self.boxesMatrix[i.x][i.y].grade==4):
-                #print "caja capturada ",self.boxesMatrix[i.x][i.y].grade
                 self.boxesMatrix[i.x][i.y].owner=owner
                 self.observerGame.updateGraphicBox(i,owner)
+                if(owner==2):
+                    self.flagTurn=True
         self.toStringBoard()
         if(owner==2):
             self.observerGame.notifyPlay(self.isChangeTurn())
@@ -61,6 +63,9 @@ class Board():
 
 
     def isChangeTurn(self):
+        if(self.flagTurn):
+            self.flagTurn=False
+            return False
         return True
 
     def getWinner(self):

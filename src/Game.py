@@ -74,17 +74,21 @@ class Game(QMainWindow):
         node=Node(copy.deepcopy(self.Board.horizontalEdges),copy.deepcopy(self.Board.verticalEdges),copy.deepcopy(self.Board.boxesMatrix),[])
         self.pcPlayer.reset()
         self.pcPlayer.miniMax(node, 2 , "max")
-        movimientos=getMin(self.pcPlayer.graph.neighbors(node)).sequenceEdge
-        print "TURNO DE LA PC"
-        cont=0
-        for i in movimientos:
-            print "$$$$$$$$$$$$$$$$ ",i
-            cont=cont+1
-            if(cont<len(movimientos)):
-                self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,False)
-            else:
-                print "SI VOY A CAMBIAR DE TURNO"
-                self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,True)
+        auxMovimientos=self.pcPlayer.graph.neighbors(node)
+        if(len(auxMovimientos)>0):
+            movimientos=getMin(self.pcPlayer.graph.neighbors(node)).sequenceEdge
+            print "TURNO DE LA PC"
+            cont=0
+            for i in movimientos:
+                print "$$$$$$$$$$$$$$$$ ",i
+                cont=cont+1
+                if(cont<len(movimientos)):
+                    self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,False)
+                else:
+                    print "SI VOY A CAMBIAR DE TURNO"
+                    self.Board.updateEdge(i[2],Dod(i[0],i[1]),1,True)
+        else:
+            print "LA COMPUTADORA COME AL FINAL"
             
 
     def updateGraphicBox(self,dod,owner):
