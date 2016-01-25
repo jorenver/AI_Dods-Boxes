@@ -25,6 +25,7 @@ class pcPlayer():
 		self.orderTurn = orderTurn
 		self.observerGame=game
 		self.observerGraphicBoard=GraphicBoard
+		self.root=None
 
 	def reset(self):
 		self.graph=nx.Graph()
@@ -46,7 +47,11 @@ class pcPlayer():
 
 
 		if(depth==0):
+<<<<<<< HEAD
 			node.heuristicValue = ai_board.heuristic(self.orderTurn, typeLevel)
+=======
+			node.heuristicValue = ai_board.heuristic(self.orderTurn,typeLevel)
+>>>>>>> 5cec1c57d82a514527dadbef072eaae556798121
 		else:
 
 			owner = None
@@ -57,7 +62,11 @@ class pcPlayer():
 
 			children= ai_board.getBoardChildren(owner)
 			if(len(children)==0):
+<<<<<<< HEAD
 				node.heuristicValue = ai_board.heuristic(self.orderTurn, typeLevel)
+=======
+				node.heuristicValue = ai_board.heuristic(self.orderTurn,typeLevel)
+>>>>>>> 5cec1c57d82a514527dadbef072eaae556798121
 			else:
 				print "########################## ",len(children)
 				for i in children:

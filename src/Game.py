@@ -12,6 +12,7 @@ from node import *
 from pcPlayer import *
 from Dod import *
 import copy
+from GraphicTree import *
 class Game(QMainWindow):
 
     def __init__(self,nRows,nColumns,firstPlayer):
@@ -50,9 +51,16 @@ class Game(QMainWindow):
         self.pcPlayer=pcPlayer(self.Board, firstPlayer,self,self.graphicBoard)
         self.scorePlyer=0
         self.scorePc=0
+        self.nRows=nRows
+        self.nColumns=nColumns
+        self.ventanaTree=None
         if(self.turn==1):
             self.pcPlayerTurn()
-        print nRows,nColumns
+        self.buttonShowTree.clicked.connect(self.openTree)
+
+    def openTree(self):
+        self.ventanaTree=GraphicTree(self.pcPlayer.graph,self.pcPlayer.root,self.nRows,self.nColumns)
+        self.ventanaTree.show()
 
     def changeTurn(self):
         if(self.turn==1):
@@ -75,6 +83,7 @@ class Game(QMainWindow):
         #self.CONTADOR=self.CONTADOR+1
         node=Node(copy.deepcopy(self.Board.horizontalEdges),copy.deepcopy(self.Board.verticalEdges),copy.deepcopy(self.Board.boxesMatrix),[])
         self.pcPlayer.reset()
+        self.pcPlayer.root=node
         self.pcPlayer.miniMax(node, 2 , "max")
         auxMovimientos=self.pcPlayer.graph.neighbors(node)
         if(len(auxMovimientos)>0):

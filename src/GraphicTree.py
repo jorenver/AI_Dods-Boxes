@@ -7,9 +7,32 @@ from PyQt5.QtGui import *
 import networkx as nx
 from GraphicNode import *
 
-class GraphicTree(QWidget):
+def getMin2(l):
+	n=l[0]
+	cont=0
+	index=0
+	for i in l:
+		if(i.heuristicValue < n.heuristicValue):
+			n=i
+			index=cont
+		cont=cont+1
 
-	def __init__(self,*args):
+	return n,l.pop(index)
+
+def getMax2(l):
+	n=l[0]
+	cont=0
+	index=0
+	for i in l:
+		if(i.heuristicValue > n.heuristicValue):
+			n=i
+			index=cont
+		cont=cont+1
+	return n,l.pop(index)
+
+class GraphicTree(QMainWindow):
+
+	def __init__(self,graph,root,rows,colums,*args):
 		super(GraphicTree, self).__init__()
 		self.setWindowTitle("Tree")
 		self.dimX=1200
@@ -17,60 +40,45 @@ class GraphicTree(QWidget):
 		self.star=10
 		self.radio=50
 		self.resize(self.dimX,self.dimY)
-		self.graph=nx.Graph()
-		self.graph.add_node(1)
-		self.graph.add_node(2)
-		self.graph.add_node(3)
-		self.graph.add_node(4)
-		self.graph.add_node(5)
-		self.graph.add_node(6)
-		self.graph.add_node(7)
-		self.graph.add_node(8)
-		self.graph.add_node(9)
-		self.graph.add_node(10)
-		self.graph.add_node(11)
-		self.graph.add_node(12)
-		self.graph.add_node(13)
-		self.graph.add_node(14)
-		self.graph.add_node(15)
-		self.graph.add_node(16)
-		self.graph.add_node(17)
-		self.graph.add_node(18)
-		self.graph.add_node(19)
-		self.graph.add_node(20)
-
-		self.graph.add_edge(1,2)
-		self.graph.add_edge(1,3)
-		self.graph.add_edge(1,4)
-		self.graph.add_edge(1,5)
-		self.graph.add_edge(2,6)
-		self.graph.add_edge(2,7)
-		self.graph.add_edge(2,8)
-		self.graph.add_edge(2,9)
-		self.graph.add_edge(2,10)
-		self.graph.add_edge(6,11)
-		self.graph.add_edge(6,12)
-		self.graph.add_edge(6,13)
-		self.graph.add_edge(6,14)
-		self.graph.add_edge(6,15)
-		self.graph.add_edge(11,16)
-		self.graph.add_edge(11,17)
-		self.graph.add_edge(11,18)
-		self.graph.add_edge(11,19)
-		self.graph.add_edge(11,20)
+		
+		self.graph=graph
+		self.rows=rows
+		self.colums=colums
+		self.root=root
 		nodes=[]
-		nodes.append(1) #agrego la raiz del arbol
-		n=GraphicNode(None,self)
+		nodes.append(self.root) #agrego la raiz del arbol
+		n=GraphicNode(self.root,self.rows,self.colums,self)
 		n.move(self.dimX/2,self.star)
 		cont=1
-		while cont<=5:
-			hijos=self.graph.neighbors(1)
+		axuType="max"
+		while cont<3:
+			hijos=self.graph.neighbors(self.root)
+			numHijos=0
+			nhijos=[]
+			'''
+			while len(hijos)!=0 and numHijos<4:
+				if axuType=="max":
+					auxHijo,hijos=getMax2(hijos)
+					nhijos.append(auxHijo)
+				else:
+					auxHijo,hijos=getMin2(hijos)
+					nhijos.append(auxHijo)
+				numHijos=numHijos+1
+			'''
+
 			cont2=0
 			for i in hijos:
 				#dibjar a cada hijo
-				n=GraphicNode(None,self)
+				n=GraphicNode(i,self.rows,self.colums,self)
 				n.move(cont2*self.dimX/len(hijos),self.star+cont*100)
+				if cont2==0:	
+					self.root=i
 				cont2=cont2+1
+				
+			if(axuType=="max"):
+				axuType="min"
+			else:
+				axuType="max"
 			nodes.pop()
 			if(hijos[0]):
 				nodes.append(hijos[0])
@@ -87,17 +95,13 @@ class GraphicTree(QWidget):
 		
 		
 		nodes=[]
-		nodes.append(1) #agrego la raiz del arbol
-		n=GraphicNode(None,self)
-		n.move(self.dimX/2,self.star)
+		nodes.append(self.root) #agrego la raiz del arbol
 		cont=1
-		while cont<=5:
-			hijos=self.graph.neighbors(1)
+		while cont<3:
+			hijos=self.graph.neighbors(self.root)
 			cont2=0
 			for i in hijos:
 				#dibjar a cada hijo
-				n=GraphicNode(None,self)
-				n.move(cont2*self.dimX/len(hijos),self.star+cont*100)
 				#qp.drawEllipse(cont2*self.dimX/len(hijos),self.star+cont*100,self.radio,self.radio)
 				if(cont==1):#solo en la primera pasada se dibuja desde la raiz
 					qp.drawLine(self.dimX/2+self.radio/2, self.star+self.radio, cont2*self.dimX/len(hijos)+self.radio/2, self.star+cont*100)

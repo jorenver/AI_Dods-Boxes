@@ -5,93 +5,69 @@ from GraphicBox import *
 from GraphicPoint import *
 from LineasPunteadas import *
 from Lineas import *
+from GraphicEdge import *
 import sys
 
 class GraphicNodeContend(QWidget):
 
 	def __init__(self,rows,column,verticalEdges,horizontalEdges,boxmatriz,*args):
-		super(GraphicNodeContend,self).__init__()
+		super(GraphicNodeContend, self).__init__()
 		self.Row = int(rows)
 		self.Column = int(column)
-		self.move(50,100)
-		self.setMinimumHeight(300)
-		self.setMinimumWidth(300)
+		#self.move(50,100)
+		#self.setMinimumHeight(300)
+		#self.setMinimumWidth(300)
 		self.horizontalEdges = horizontalEdges
 		self.verticalEdges = verticalEdges
 		self.matrizbox = boxmatriz
-		self.builNodeTable()
+		self.GraphicVerticalEdges=[]
+		self.GraphicBoxesMatrix=[]
+		self.GrapicHorizontalEdges=[]
+		self.builGraphBoard()
 
-	def builNodeTable(self):
+	def builGraphBoard(self):
 		COLUMNA = 0
 		FILA = 0
-		fx = 0
-		fy = 0
-		fz = 0
-		decrementadorh = 1
-		decrementadorv = 0
-		decrementadorb = 1
-		nfilas = 2*self.Row + 1
-		nColumnas = 2*self.Column + 1
-		print nfilas
-		print nColumnas
+		nfilas = 2*self.Row+1
+		nColumnas = 2*self.Column+1
 		for i in range(nfilas):
 			if i%2==0:
+				auxHorizontal=[]
 				for j in range(nColumnas):
-					if j%2==0:
-						dot = GraphicPoint(self)
+					if j%2==0: #dot
+						dot=GraphicPoint(self)
 						dot.setMinimumHeight(30)
 						dot.setMinimumWidth(30)
 						dot.move(COLUMNA,FILA)
 						COLUMNA = COLUMNA + 30
-					else:
-						posColumnaH = j-decrementadorh
-						type = "H"
-						if self.hayLineaHorizontal(fx,posColumnaH):
-							arcoh = Lineas(type,self)
-							arcoh.setMinimumWidth(30)
-							arcoh.setMinimumHeight(60)
-							arcoh.move(COLUMNA,FILA)
-						#else:
-							#arcoh = LineasPunteadas(type,self)
-							#arcoh.setMinimumWidth(30)
-							#arcoh.setMinimumHeight(60)
-							#arcoh.move(COLUMNA,FILA)
-						decrementadorh = decrementadorh + 1
+					else: #horizontal Edge
+						if self.hayLineaHorizontal(i//2,j//2):
+							gEdge=Lineas("H",self)
+							gEdge.setMinimumHeight(30)
+							gEdge.setMinimumWidth(60)
+							gEdge.move(COLUMNA,FILA)
 						COLUMNA = COLUMNA + 60
 				FILA = FILA + 30
-				decrementadorh = 1
 				COLUMNA = 0
-				fx= fx + 1
 			else:
 				for j in range(nColumnas):
-					if j%2==0:
-						posColumnaV= j - decrementadorv
-						type = "V"
-						if self.hayLineaVertical(fy,posColumnaV):
-							arcoV = Lineas(type,self)
-							arcoV.setMinimumHeight(60)
-							arcoV.setMinimumWidth(30)
-							arcoV.move(COLUMNA,FILA)
-						#else:
-							#arcoV = LineasPunteadas(type,self)
-							#arcoV.setMinimumHeight(60)
-							#arcoV.setMinimumWidth(30)
-							#arcoV.move(COLUMNA,FILA)
+					if j%2==0: #verticar Edge
+						if self.hayLineaVertical(i//2,j//2):
+							gEdge=Lineas("V",self)
+							#gEdge=QPushButton("V",self.contendorBoard)
+							gEdge.setMinimumHeight(60)
+							gEdge.setMinimumWidth(30)
+							gEdge.move(COLUMNA,FILA)
 						COLUMNA = COLUMNA + 30
-						decrementadorv = decrementadorv + 1
-					else:
-						posColumnab = j - decrementadorb
-						if self.hayCaja(fz,posColumnab):
-							caja = GraphicBox(self)
-							caja.setMinimumHeight(60)
-							caja.setMinimumWidth(60)
-							caja.move(COLUMNA,FILA)
-							COLUMNA = COLUMNA + 60	
+					else: #box
+						gBox=GraphicBox(self)
+						#gBox=QPushButton("B",self.contendorBoard)
+						gBox.setMinimumHeight(60)
+						gBox.setMinimumWidth(60)
+						gBox.move(COLUMNA,FILA)
+						COLUMNA = COLUMNA + 60
 				FILA = FILA + 60
 				COLUMNA = 0
-				decrementadorv = 0
-				fy = fy + 1
-				fz = fz + 1
 
 		
 	def hayLineaHorizontal(self,filas,columnas):
@@ -106,7 +82,7 @@ class GraphicNodeContend(QWidget):
 		else:
 			return False
 	def hayCaja(self,filas,columnas):
-		if self.matrizbox[filas][columnas] == 1:
+		if self.matrizbox[filas][columnas] != None:
 			return True
 		else:
 			return False
@@ -131,20 +107,4 @@ def builboxMatriz():
 	boxmatriz = [[1 for x in range(5)] for x in range(5)]
 	return boxmatriz
 
-app = QApplication(sys.argv)
-matrizhorizontal =  builMatrixHorizontalEdges()
-matrizvertical = buildMatrixVerticalEdges()
-box = builboxMatriz()
-matrizvertical[0][0]=1
-matrizvertical[0][1]=1
-matrizvertical[0][2]=1
-matrizhorizontal[0][0]=1
-matrizhorizontal[1][0]=1
-print matrizhorizontal
-print matrizvertical[0]
-print matrizhorizontal[1]
-print matrizhorizontal[2]
-print matrizhorizontal[0][0]
-ventana = GraphicNodeContend(3,3,matrizvertical,matrizhorizontal,box)
-ventana.show()
-sys.exit(app.exec_())
+
