@@ -606,7 +606,7 @@ class AI_Board:
 					edge = self.GetEdgesbyBox(box) #return the avalable edge
 					box.visited = 1
 					self.updateBoxes(edge[0], owner) #update the grade and the owner
-					sequenceEdge.append( edge ) #add the edge to the sequence
+					sequenceEdge.append( edge[0] ) #add the edge to the sequence
 
 		box = self.findCBox()
 		#if(box != None):
